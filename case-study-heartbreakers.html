@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Karma Money Heartbreaker Experience — Haemin Hwang</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2EFE6;
+    --paper-dim:#EAE6D9;
+    --ink:#191A1E;
+    --ink-soft:#5B5C60;
+    --cobalt:#3350FF;
+    --mint:#C9FF7A;
+    --coral:#FF5B49;
+    --line: rgba(25,26,30,0.14);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Poppins', sans-serif; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:0.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 32px;}
+  .wide{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky; top:0; z-index:100; background:var(--paper); border-bottom:1px solid var(--line);}
+  .nav-row{display:flex; align-items:center; justify-content:space-between; padding:18px 32px;}
+  .wordmark{font-family:'Instrument Serif', serif; font-size:22px; letter-spacing:0.01em; text-decoration:none;}
+  .wordmark em{color:var(--cobalt); font-style:italic;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.06em; text-decoration:none; color:var(--ink);
+    position:relative; padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px;
+    width:0; height:1px; background:var(--cobalt);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-links a.cta{background:var(--ink); color:var(--paper); padding:8px 14px; border-radius:var(--radius);}
+  .nav-links a.cta:hover{color:var(--paper);}
+
+  /* ---------- COVER ---------- */
+  /* ---------- GRADIENT HERO ---------- */
+  .cover-laptop{
+    margin:40px 0 0; position:relative; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius); background:var(--paper);
+  }
+  .cover-laptop video{width:100%; height:100%; object-fit:contain; display:block;}
+  .cover-laptop .edge-fade{position:absolute; top:0; bottom:0; width:20%; pointer-events:none;}
+  .cover-laptop .edge-fade.left{left:0; background:linear-gradient(to right, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .cover-laptop .edge-fade.right{right:0; background:linear-gradient(to left, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .summary-card{
+    position:relative; margin:32px auto 0; max-width:62ch;
+    border:1px solid var(--line); border-radius:var(--radius); padding:28px 32px;
+    background:var(--paper-dim); text-align:center;
+    transform:rotate(var(--tilt, -1deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .summary-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .summary-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:22px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .summary-card .cs-summary{margin:0; max-width:none;}
+  .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:22px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+    z-index:2;
+  }
+  .cover-meta{position:relative; z-index:2; padding:36px 0 44px; border-bottom:1px solid var(--line); margin-bottom:44px;}
+  h1.cs-title{
+    font-family:'Instrument Serif', serif; font-weight:400; font-style:normal;
+    font-size:clamp(22px,3.4vw,38px); line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 18px; max-width:100%; white-space:nowrap;
+  }
+  @media (max-width:640px){
+    h1.cs-title{white-space:normal; text-wrap:balance;}
+  }
+  .cs-summary{font-size:17px; line-height:1.6; color:var(--ink-soft); max-width:62ch; margin:0 0 26px;}
+  .meta-row{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; justify-content:center;
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+  .meta-row .dot{width:7px; height:7px; border-radius:50%; background:var(--cobalt); animation:pulse 1.8s ease-in-out infinite; flex:0 0 auto;}
+  .meta-row span{color:var(--ink-soft);}
+  .meta-row span:not(:last-child)::after{content:"·"; margin-left:10px; color:var(--ink-soft);}
+  .meta-row span.brand{color:var(--cobalt);}
+  .meta-row span.status{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+
+  /* ---------- DETAILS 3-COL ---------- */
+  .details-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:28px;
+    padding-bottom:44px; margin-bottom:44px; border-bottom:1px solid var(--line);
+  }
+  .details-grid .col b{
+    display:block; font-family:'Space Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .details-grid .col p{margin:0; font-size:14.5px; line-height:1.55;}
+
+  /* ---------- SECTION EYEBROW + HEAD ---------- */
+  section.cs-section{padding:52px 0; border-bottom:1px solid var(--line);}
+  .eyebrow-label{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--cobalt); margin-bottom:16px;
+  }
+  .section-head{
+    font-family:'Poppins', sans-serif; font-weight:400; font-size:24px;
+    line-height:1.4; letter-spacing:-0.01em; max-width:44ch; margin:0 0 18px;
+    text-wrap:balance;
+  }
+  .section-body{font-size:15.5px; line-height:1.7; color:var(--ink-soft); max-width:60ch;}
+  .section-body + .section-body{margin-top:14px;}
+
+  ul.point-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:60ch;}
+  ul.point-list li{
+    font-size:15px; line-height:1.6; color:var(--ink-soft);
+    padding-left:22px; position:relative;
+  }
+  ul.point-list li::before{content:"—"; position:absolute; left:0; color:var(--cobalt);}
+  ul.point-list li b{color:var(--ink); font-weight:600;}
+
+  /* ---------- RESULT (big before/after) ---------- */
+  .result-numbers{display:flex; align-items:baseline; gap:28px; margin:24px 0 8px;}
+  .result-numbers .num{font-family:'Instrument Serif', serif; font-size:88px; color:var(--cobalt); line-height:1;}
+  .result-numbers .arrow{font-size:28px; color:var(--ink-soft);}
+  .result-caption{font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft);}
+
+  /* ---------- IMPACT STAT CARDS ---------- */
+  .impact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
+  .impact-card{
+    position:relative;
+    border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+    background:var(--paper-dim);
+    transform:rotate(var(--tilt, 0deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .impact-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .impact-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:60px; height:20px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .impact-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:60px; height:20px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .impact-card .n{
+    font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.05em;
+    color:var(--ink-soft); margin-bottom:16px;
+  }
+  .impact-card .stat{font-family:'Instrument Serif', serif; font-size:44px; color:var(--cobalt); line-height:1; margin-bottom:12px;}
+  .impact-card .label{font-weight:600; font-size:14.5px; margin-bottom:8px;}
+  .impact-card .desc{font-size:13.5px; line-height:1.55; color:var(--ink-soft);}
+
+  /* ---------- KEY INSIGHTS ---------- */
+  .insight{display:flex; gap:16px; margin-bottom:22px;}
+  .insight .n{font-family:'Instrument Serif', serif; font-size:22px; color:var(--cobalt); flex:0 0 auto;}
+  .insight p{margin:0; font-size:15px; line-height:1.6; color:var(--ink-soft);}
+  .insight p b{color:var(--ink);}
+
+  /* ---------- DESIGN BREAKDOWN ---------- */
+  .design-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .design-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:12px;}
+  .design-frame{
+    aspect-ratio:16/9; margin-top:24px;
+    background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    transform:rotate(var(--tilt, -1.5deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .design-frame:hover{transform:rotate(0deg) scale(1.015); box-shadow:0 18px 30px -14px rgba(25,26,30,0.35);}
+
+  /* ---------- BEFORE/AFTER COMPARISON ---------- */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;}
+  .compare-grid-3{position:relative; margin-top:20px; padding-bottom:20px;}
+  .compare-grid-3 .compare-item{width:58%; position:relative;}
+  .compare-grid-3 .compare-item:nth-child(1){margin-left:0;}
+  .compare-grid-3 .compare-item:nth-child(2){margin-left:auto; margin-top:32px;}
+  .compare-grid-3 .compare-item:nth-child(3){margin-left:14%; margin-top:32px;}
+  .compare-grid-3 .compare-frame{box-shadow:0 14px 26px -12px rgba(25,26,30,0.3);}
+  .compare-item{display:flex; flex-direction:column; gap:8px;}
+  .compare-frame{position:relative; aspect-ratio:3/2; background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .compare-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .cf-label{
+    align-self:flex-start;
+    font-family:'Space Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em;
+    padding:4px 9px; border-radius:20px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  }
+  .compare-item.after .cf-label{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+  .decision-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .decision-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--cobalt); margin-bottom:12px;}
+
+  /* ---------- OPPORTUNITY TABLE ---------- */
+  .opp-table-wrap{margin-top:24px; border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto; background:var(--paper-dim);}
+  table.opp-table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px;}
+  table.opp-table th, table.opp-table td{padding:12px 16px; text-align:right; border-bottom:1px solid var(--line);}
+  table.opp-table th:first-child, table.opp-table td:first-child{text-align:left; font-weight:400; color:var(--ink);}
+  table.opp-table th{
+    font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--paper); background:var(--ink);
+  }
+  table.opp-table th:first-child{background:var(--ink);}
+  table.opp-table td{font-family:'Space Mono', monospace; color:var(--ink-soft);}
+  table.opp-table tr:last-child td{border-bottom:none; font-weight:700; color:var(--cobalt); font-size:14.5px;}
+  table.opp-table tr:last-child td:first-child{color:var(--ink); font-family:'Poppins',sans-serif; font-weight:600;}
+  .opp-caption{font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:14px; text-align:center;}
+  .flow-diagram{
+    position:relative;
+    margin:28px auto 0; padding:24px; max-width:920px;
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-dim); overflow-x:auto;
+    display:flex; justify-content:center;
+  }
+  .flow-diagram svg{width:100%; max-width:1100px; min-width:680px; height:auto; display:block; margin:0 auto;}
+
+  /* ---------- CLOSING ---------- */
+  .closing{padding:64px 0; text-align:left;}
+  .closing p{font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(20px,2.6vw,28px); line-height:1.5; max-width:38ch; margin:0;}
+
+  /* ---------- FOOTER NAV ---------- */
+  .case-nav{display:flex; justify-content:space-between; padding:32px 0; border-top:1px solid var(--line); font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em;}
+  .case-nav a{text-decoration:none;}
+  .case-nav a:hover{color:var(--cobalt);}
+  footer.contact{padding:32px 0 60px; font-family:'Space Mono', monospace; font-size:12px; display:flex; gap:24px; justify-content:center;}
+  .more-work{padding-top:44px; border-top:1px solid var(--line); margin-top:56px;}
+  .more-work-label{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:20px;}
+  .more-work-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .more-work-item{text-decoration:none; display:block; position:relative;}
+  .more-work-frame{
+    position:relative;
+    aspect-ratio:4/3; background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:10px; overflow:hidden;
+    transform:rotate(var(--tilt, 0deg)); transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .more-work-item:hover .more-work-frame{transform:rotate(0deg) scale(1.02); box-shadow:0 14px 26px -12px rgba(25,26,30,0.3);}
+  .more-work-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .more-work-title{font-family:'Instrument Serif', serif; font-size:17px; color:var(--ink); margin-bottom:4px;}
+  .more-work-tags{font-family:'Space Mono', monospace; font-size:10.5px; color:var(--ink-soft);}
+  @media (max-width:760px){
+    .more-work-grid{grid-template-columns:1fr; gap:32px;}
+  }
+  footer.contact a{text-decoration:none;}
+  footer.contact a:hover{color:var(--cobalt);}
+
+  @media (max-width:760px){
+    .details-grid, .impact-grid{grid-template-columns:1fr;}
+    .result-numbers .num{font-size:56px;}
+    .compare-grid{grid-template-columns:1fr;}
+    .compare-frame[style*="height:400px"]{height:280px !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-row wide">
+    <a href="index.html" class="wordmark">haemin<em>hwang</em></a>
+    <div class="nav-links">
+      <a href="play.html">play</a>
+      <a href="about.html">about</a>
+      <a href="Resume2026.pdf">resume</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="cover-meta" style="border-bottom:none; margin-bottom:0; padding:40px 0 0; text-align:center;">
+    <h1 class="cs-title">❤️‍🩹 Credit Karma Money Heartbreaker Experience</h1>
+    <div class="meta-row" style="margin-top:24px;">
+      <span class="brand">@turbotax</span>
+      <span>systems thinking</span>
+      <span>design research</span>
+      <span>shipped · nov 2023</span>
+    </div>
+  </div>
+</div>
+
+<div class="wide">
+  <div class="cover-laptop">
+    <video src="heartbreakers-video.mp4" poster="heartbreakers-poster.jpg" autoplay muted loop playsinline></video>
+    <div class="edge-fade left"></div>
+    <div class="edge-fade right"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="summary-card" style="margin-top:56px; --tilt:-1deg;">
+    <div class="tape"></div>
+    <p class="cs-summary">I redesigned a save interjection experience for when a customer
+    switches their refund deposit method away from Credit Karma Money, using a
+    comparison chart to rebuild trust in Credit Karma as a real bank.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="details-grid" style="margin-top:40px;">
+    <div class="col">
+      <b>Surface</b>
+      <p>Account Setup onboarding flow, with a personalized Homepage checklist</p>
+    </div>
+    <div class="col">
+      <b>Team</b>
+      <p>1 Product Manager · 3 Engineers · 1 Designer (me) · 2 SMS Designers</p>
+    </div>
+    <div class="col">
+      <b>Scope</b>
+      <p>Product Design · User Research · Prototyping</p>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="cs-section">
+    <div class="eyebrow-label">THE PROBLEM</div>
+    <div class="section-head">131K customers opened a Credit Karma Money account in 2023, then changed their mind</div>
+    <p class="section-body">A "Heartbreaker" is a TurboTax customer who selects Credit
+    Karma Money to deposit their refund, then switches to a different method before
+    filing is complete. They didn't think getting their refund five days early was fast
+    enough, and weren't confident Credit Karma was a real bank. The existing save
+    experience only retained 11 to 27% of these customers, and for 2024 there was a
+    clear need to improve it.</p>
+  </section>
+
+  <!-- RESULT -->
+  <section class="cs-section">
+    <div class="eyebrow-label">RESULT</div>
+    <div class="section-head">A comparison-chart modal that rebuilt trust in Credit Karma as a real bank</div>
+    <p class="section-body">The solution: a modal that appears the moment a customer
+    switches away from Credit Karma Money, replacing a plain benefits list with a
+    comparison chart weighing Credit Karma Money against a traditional bank. It leans
+    on loss of "5 days early" as the primary motivator, backed by trust-building,
+    table-stake benefits.</p>
+    <div class="impact-grid" style="margin-top:32px; grid-template-columns:repeat(2,1fr);">
+      <div class="impact-card" style="--tilt:-1.5deg;">
+        <div class="tape" style="transform:translateX(-50%) rotate(-2deg);"></div>
+        <div class="n">01</div>
+        <div class="stat">100.2</div>
+        <div class="label">Take Rate</div>
+        <div class="desc">Indexed take rate on the new save modal, measured May 2024.</div>
+      </div>
+      <div class="impact-card" style="--tilt:1.5deg;">
+        <div class="tape" style="transform:translateX(-50%) rotate(3deg);"></div>
+        <div class="n">02</div>
+        <div class="stat">$200K</div>
+        <div class="label">Revenue Saved</div>
+        <div class="desc">Revenue saved over baseline as a direct result of the redesigned experience.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="cs-section">
+    <div class="eyebrow-label">CONTEXT</div>
+    <div class="section-head">A disjointed save screen that never explained why Credit Karma Money was worth keeping</div>
+    <p class="section-body">Since Intuit acquired Credit Karma, TurboTax customers could
+    deposit their refund into a Credit Karma Money account and receive it five days
+    early. The existing Heartbreaker experience triggered as an entirely new screen when
+    a customer went back to change their refund method, adding to an already long tax
+    filing flow without ever highlighting what made Credit Karma Money worth keeping.</p>
+  </section>
+
+  <!-- KEY DECISIONS -->
+  <section class="cs-section" style="border-bottom:none;">
+    <div class="eyebrow-label">KEY DECISIONS</div>
+    <div class="section-head">Three calls that shaped the experience, and why I made them</div>
+    <p class="section-body">User research shaped every major call here: which interjection
+    point to use, how to present Credit Karma Money's benefits, and how to get an
+    unbuilt component shipped despite real engineering constraints.</p>
+  </section>
+</div>
+
+<!-- DECISION 1 -->
+<div class="wrap">
+  <div class="decision-block" style="border-bottom:none;">
+    <div class="decision-tag">DECISION 01</div>
+    <div class="section-head">Chose a modal over a banner, after concept-testing two interjection points</div>
+    <p class="section-body">I explored two ways to surface Credit Karma Money's benefits.
+    A banner on the refund selection screen added no extra screens, but couldn't fit
+    enough information to build trust. A modal, triggered right after a customer picked
+    a different refund method, could carry a full comparison but risked adding to an
+    already long flow. My team preferred the modal: it acted as a soft reminder without
+    inserting a brand new interjection screen the way the old design did.</p>
+    <div style="display:flex; gap:24px; align-items:stretch; flex-wrap:wrap; justify-content:center;">
+      <div class="compare-item" style="flex:0 0 auto;">
+        <div class="compare-frame" style="aspect-ratio:809/2007; height:400px; width:auto; background:#fff;"><img src="decision1-banner-mobile.png" alt="Banner option: How would you like to receive your refund, mobile" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+        <span class="cf-label">option: banner</span>
+      </div>
+      <div class="compare-item after" style="flex:0 0 auto;">
+        <div class="compare-frame" style="aspect-ratio:810/1977; height:400px; width:auto; background:#fff;"><img src="decision1-modal-mobile.png" alt="Chosen: save modal, mobile" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+        <span class="cf-label">chosen: modal</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION 2 -->
+  <div class="decision-block" style="border-bottom:none;">
+    <div class="decision-tag">DECISION 02</div>
+    <div class="section-head">User-tested a benefits list against a comparison chart, and the chart won clearly</div>
+    <p class="section-body">Inside the modal, I narrowed to two concepts: a short list of
+    Credit Karma Money's key benefits, or a chart comparing it directly to a traditional
+    bank. I tested both, in random order, with ten customers. The comparison chart won
+    decisively: the list offered too little information, while the chart let people see
+    Credit Karma Money's potential as a real bank, directly addressing the trust concerns
+    research had already surfaced.</p>
+    <div style="display:flex; gap:24px; align-items:stretch; flex-wrap:wrap; justify-content:center;">
+      <div class="compare-item" style="flex:0 0 auto;">
+        <div class="compare-frame" style="aspect-ratio:708/1571; height:400px; width:auto; background:#fff;"><img src="decision2-list-mobile.png" alt="Tested: benefits list, mobile" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+        <span class="cf-label">tested: list</span>
+      </div>
+      <div class="compare-item after" style="flex:0 0 auto;">
+        <div class="compare-frame" style="aspect-ratio:810/1909; height:400px; width:auto; background:#fff;"><img src="decision2-chart-mobile.png" alt="Winner: comparison chart, mobile" style="width:100%; height:100%; object-fit:cover; display:block;"></div>
+        <span class="cf-label">winner: chart</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION 3 -->
+  <div class="decision-block">
+    <div class="decision-tag">DECISION 03</div>
+    <div class="section-head">Contributed back to design systems by scaling and creating a reusable component</div>
+    <p class="section-body">I cut the modal's illustration to make room for the chart,
+    and worked with content, legal, and research to land on trust-building benefits. The
+    chart itself wasn't an existing component, and a from-scratch build was ruled out as
+    too large a scope, so I made the case to modify an existing one instead, scaling it
+    to fit this use case and documenting it as a formal spec so other teams could reuse it.</p>
+    <div class="compare-item" style="margin-top:16px;">
+      <div class="compare-frame" style="aspect-ratio:3822/2448; padding:24px;">
+        <img src="heartbreakers-component-spec.png" alt="Comparison chart component spec, documenting fixed and flexible properties" style="width:100%; height:100%; object-fit:contain; display:block;">
+      </div>
+      <span class="cf-label">contributed: comparison chart</span>
+    </div>
+  </div>
+</div>
+
+
+<div class="wrap">
+  <!-- RETROSPECT -->
+  <section class="closing">
+    <div class="eyebrow-label">IN RETROSPECT</div>
+    <p>A few things I'd do differently next time.</p>
+    <p class="section-body" style="margin-top:18px; max-width:56ch;">I'd connect with
+    dev partners earlier, before the component conversation turned into a scope debate,
+    and loop in the Systems team sooner too, since their input would have shaped the
+    design earlier instead of late. And I'd be quicker to escalate when I hit a wall,
+    rather than waiting to see if a compromise would surface on its own.</p>
+  </section>
+
+  <div class="more-work">
+    <div class="more-work-label">more work</div>
+    <div class="more-work-grid">
+      <a href="case-study-quickbooks.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:1.5deg;"><img src="homepage-payroll-migration.png" alt="Payroll Migration"></div>
+        <div class="more-work-title">Payroll migration</div>
+        <div class="more-work-tags">@quickbooks · field research</div>
+      </a>
+      <a href="case-study-switchers.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:-2deg;"><img src="homepage-switchers.jpg" alt="Onboarding Switchers"></div>
+        <div class="more-work-title">Onboarding switchers</div>
+        <div class="more-work-tags">@mailchimp · visual design</div>
+      </a>
+      <a href="case-study-integrations.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:1deg;"><img src="homepage-integrations.png" alt="First Time User Integration Recommendations"></div>
+        <div class="more-work-title">Integration recommendations</div>
+        <div class="more-work-tags">@mailchimp · ai models</div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="contact">
+    <a href="mailto:haeminhwang2000@gmail.com">📮 email</a>
+    <a href="https://www.linkedin.com/in/haeminhwang/">🔗 linkedin</a>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.design-frame, .impact-card, .summary-card').forEach(frame=>{
+    frame.addEventListener('mousemove', (e)=>{
+      const r = frame.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      frame.style.transform = `rotate(0deg) perspective(700px) rotateX(${y*-4}deg) rotateY(${x*4}deg) scale(1.015)`;
+    });
+    frame.addEventListener('mouseleave', ()=>{ frame.style.transform = ''; });
+  });
+</script>
+
+</body>
+</html>

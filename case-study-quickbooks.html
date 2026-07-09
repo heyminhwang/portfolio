@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payroll Migration — Haemin Hwang</title>
+<!--
+  Built on the same template as case-study-switchers.html:
+  cover → overview → details → problem → A/B test → result → insight →
+  partner council → key insights → segments → competitive → AI-assisted
+  redesign (decision blocks) → what we built → closing → footer.
+
+  EDIT MARKERS: search "EDIT:" for spots to swap in your real A/B test
+  screenshots/numbers once you upload them. Everything else already
+  uses the real Partner Council deck content + screenshots.
+-->
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2EFE6;
+    --paper-dim:#EAE6D9;
+    --ink:#191A1E;
+    --ink-soft:#5B5C60;
+    --cobalt:#3350FF;
+    --mint:#C9FF7A;
+    --coral:#FF5B49;
+    --line: rgba(25,26,30,0.14);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  b, strong{font-weight:500;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Poppins', sans-serif; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:0.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 32px;}
+  .wide{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky; top:0; z-index:100; background:var(--paper); border-bottom:1px solid var(--line);}
+  .nav-row{display:flex; align-items:center; justify-content:space-between; padding:18px 32px;}
+  .wordmark{font-family:'Instrument Serif', serif; font-size:22px; letter-spacing:0.01em; text-decoration:none;}
+  .wordmark em{color:var(--cobalt); font-style:italic;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.06em; text-decoration:none; color:var(--ink);
+    position:relative; padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px;
+    width:0; height:1px; background:var(--cobalt);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-links a.cta{background:var(--ink); color:var(--paper); padding:8px 14px; border-radius:var(--radius);}
+  .nav-links a.cta:hover{color:var(--paper);}
+
+  /* ---------- COVER ---------- */
+  .cover-laptop{
+    margin:40px 0 0; position:relative; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius); background:var(--paper);
+  }
+  .cover-laptop img{width:100%; height:100%; object-fit:contain; display:block;}
+  .cover-laptop video{width:100%; height:100%; object-fit:contain; display:block;}
+  .cover-laptop .edge-fade{position:absolute; top:0; bottom:0; width:20%; pointer-events:none;}
+  .cover-laptop .edge-fade.left{left:0; background:linear-gradient(to right, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .cover-laptop .edge-fade.right{right:0; background:linear-gradient(to left, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .summary-card{
+    position:relative; margin:32px auto 0; max-width:62ch;
+    border:1px solid var(--line); border-radius:var(--radius); padding:28px 32px;
+    background:var(--paper-dim); text-align:center;
+    transform:rotate(var(--tilt, -1deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .summary-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .summary-card .cs-summary{margin:0; max-width:none;}
+  .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:22px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+    z-index:2;
+  }
+  .cover-meta{position:relative; z-index:2; padding:36px 0 44px; border-bottom:1px solid var(--line); margin-bottom:44px;}
+  h1.cs-title{
+    font-family:'Instrument Serif', serif; font-weight:400; font-style:normal;
+    font-size:clamp(22px,3.4vw,38px); line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 18px; max-width:100%;
+  }
+  .cs-summary{font-size:17px; line-height:1.6; color:var(--ink-soft); max-width:62ch; margin:0 0 26px;}
+  .meta-row{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; justify-content:center;
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+  .meta-row .dot{width:7px; height:7px; border-radius:50%; background:var(--cobalt); animation:pulse 1.8s ease-in-out infinite; flex:0 0 auto;}
+  .meta-row span{color:var(--ink-soft);}
+  .meta-row span:not(:last-child)::after{content:"·"; margin-left:10px; color:var(--ink-soft);}
+  .meta-row span.brand{color:var(--cobalt);}
+  .meta-row span.status{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+
+  /* ---------- DETAILS 3-COL ---------- */
+  .details-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:28px;
+    padding-bottom:44px; margin-bottom:44px; border-bottom:1px solid var(--line);
+  }
+  .details-grid .col b{
+    display:block; font-family:'Space Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .details-grid .col p{margin:0; font-size:14.5px; line-height:1.55;}
+
+  /* ---------- SECTION EYEBROW + HEAD ---------- */
+  section.cs-section{padding:52px 0; border-bottom:1px solid var(--line);}
+  .eyebrow-label{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--cobalt); margin-bottom:16px;
+  }
+  .section-head{
+    font-family:'Poppins', sans-serif; font-weight:400; font-size:24px;
+    line-height:1.4; letter-spacing:-0.01em; max-width:44ch; margin:0 0 18px;
+    text-wrap:balance;
+  }
+  .section-body{font-size:15.5px; line-height:1.7; color:var(--ink-soft); max-width:60ch;}
+  .section-body + .section-body{margin-top:14px;}
+
+  ul.point-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:60ch;}
+  ul.point-list li{
+    font-size:15px; line-height:1.6; color:var(--ink-soft);
+    padding-left:22px; position:relative;
+  }
+  ul.point-list li::before{content:"—"; position:absolute; left:0; color:var(--cobalt);}
+  ul.point-list li b{color:var(--ink); font-weight:500;}
+
+  /* ---------- RESULT (big before/after) ---------- */
+  .result-numbers{display:flex; align-items:baseline; gap:28px; margin:24px 0 8px; flex-wrap:wrap;}
+  .result-numbers .num{font-family:'Instrument Serif', serif; font-size:88px; color:var(--cobalt); line-height:1;}
+  .result-numbers .arrow{font-size:28px; color:var(--ink-soft);}
+  .result-caption{font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft);}
+
+  /* ---------- IMPACT STAT CARDS ---------- */
+  .impact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
+  .impact-card{
+    position:relative;
+    border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+    background:var(--paper-dim);
+  }
+  .impact-card .n{
+    font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.05em;
+    color:var(--ink-soft); margin-bottom:16px;
+  }
+  .impact-card .stat{font-family:'Instrument Serif', serif; font-size:44px; color:var(--cobalt); line-height:1; margin-bottom:12px;}
+  .impact-card .label{font-weight:500; font-size:14.5px; margin-bottom:8px;}
+  .impact-card .desc{font-size:13.5px; line-height:1.55; color:var(--ink-soft);}
+
+  /* ---------- KEY INSIGHTS ---------- */
+  .insight{display:flex; gap:16px; margin-bottom:22px;}
+  .insight .n{font-family:'Instrument Serif', serif; font-size:22px; color:var(--cobalt); flex:0 0 auto;}
+  .insight p{margin:0; font-size:15px; line-height:1.6; color:var(--ink-soft);}
+  .insight p b{color:var(--ink);}
+
+  /* ---------- PEOPLE GRID (who we met) ---------- */
+  .people-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:28px;}
+  .person{text-align:center;}
+  .person img{width:64px; height:64px; border-radius:50%; object-fit:cover; margin:0 auto 10px; display:block; border:1px solid var(--line);}
+  .person .day{font-family:'Space Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:4px;}
+  .person .name{font-weight:500; font-size:13.5px; margin-bottom:2px;}
+  .person .org{font-size:12px; color:var(--ink-soft); line-height:1.4;}
+
+  /* ---------- DESIGN BREAKDOWN ---------- */
+  .design-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .design-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:12px;}
+  .design-frame{
+    aspect-ratio:16/9; margin-top:24px;
+    background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    display:flex; align-items:center; justify-content:center; overflow:hidden;
+  }
+  .design-frame img{width:100%; height:100%; object-fit:contain;}
+  .placeholder-note{
+    font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:0.05em; color:var(--ink-soft); text-align:center; padding:0 20px;
+  }
+
+  /* ---------- BEFORE/AFTER COMPARISON ---------- */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;}
+  .compare-grid-3{position:relative; margin-top:20px; padding-bottom:20px;}
+  .compare-grid-3 .compare-item{width:58%; position:relative;}
+  .compare-grid-3 .compare-item:nth-child(1){margin-left:0;}
+  .compare-grid-3 .compare-item:nth-child(2){margin-left:auto; margin-top:32px;}
+  .compare-grid-3 .compare-item:nth-child(3){margin-left:14%; margin-top:32px;}
+  .compare-grid-3 .compare-frame{box-shadow:0 14px 26px -12px rgba(25,26,30,0.3);}
+  .compare-item{display:flex; flex-direction:column; gap:8px;}
+  .compare-frame{position:relative; aspect-ratio:3/2; background:var(--paper-dim); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; display:flex; align-items:center; justify-content:center;}
+  .compare-frame img{width:100%; height:100%; object-fit:contain; display:block;}
+  .cf-label{
+    align-self:flex-start;
+    font-family:'Space Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em;
+    padding:4px 9px; border-radius:20px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  }
+  .compare-item.after .cf-label{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+  .decision-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .decision-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--cobalt); margin-bottom:12px;}
+
+  /* ---------- TABLE (two users / stack up) ---------- */
+  .opp-table-wrap{margin-top:24px; border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto; background:var(--paper-dim);}
+  table.opp-table{width:100%; border-collapse:collapse; font-size:13.5px; min-width:520px;}
+  table.opp-table th, table.opp-table td{padding:12px 16px; text-align:left; border-bottom:1px solid var(--line);}
+  table.opp-table th{
+    font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.05em;
+    color:var(--paper); background:var(--ink);
+  }
+  table.opp-table td{font-size:13.5px; color:var(--ink-soft);}
+  table.opp-table td:first-child{font-weight:500; color:var(--ink); font-family:'Space Mono', monospace; font-size:12px;}
+  table.opp-table tr:last-child td{border-bottom:none;}
+  .opp-caption{font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:14px; text-align:center;}
+
+  /* ---------- COMPETITIVE 3-COL ---------- */
+  .comp-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:28px;}
+  .comp-card{border:1px solid var(--line); border-radius:var(--radius); padding:22px; background:var(--paper-dim);}
+  .comp-card h4{font-family:'Instrument Serif', serif; font-weight:400; font-size:22px; margin:0 0 2px;}
+  .comp-card .sub{font-size:12.5px; color:var(--ink-soft); font-style:italic; margin-bottom:16px;}
+  .comp-card .grp-label{font-family:'Space Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em; color:var(--cobalt); margin:14px 0 8px;}
+  .comp-card ul{margin:0; padding-left:16px; font-size:13px; line-height:1.6; color:var(--ink-soft);}
+
+  /* ---------- WEEK TIMELINE ---------- */
+  .week-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:28px; position:relative;}
+  .week-day{position:relative; z-index:1;}
+  .week-day .day-label{
+    font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--cobalt); margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .week-day .day-label::before{
+    content:""; width:9px; height:9px; border-radius:50%; background:var(--cobalt);
+    border:2px solid var(--paper); flex:0 0 auto;
+  }
+  .week-day-card{
+    position:relative;
+    border:1px solid var(--line); border-radius:var(--radius); padding:18px;
+    background:var(--paper-dim); height:100%;
+    transform:rotate(var(--tilt, 0deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .week-day-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .week-day-card .format{font-weight:500; font-size:13.5px; margin-bottom:12px; line-height:1.4;}
+  .week-day-card .count{
+    font-family:'Space Mono', monospace; font-size:10.5px; text-transform:uppercase;
+    letter-spacing:0.05em; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .week-day-card .focus{font-size:12.5px; line-height:1.5; color:var(--ink-soft); padding-left:16px; position:relative;}
+  .week-day-card .focus::before{content:"→"; position:absolute; left:0; color:var(--cobalt);}
+  .week-caption{font-size:13px; font-style:italic; color:var(--ink-soft); margin-top:20px; text-align:center;}
+
+
+  .closing{padding:64px 0; text-align:left;}
+  .closing p{font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(20px,2.6vw,28px); line-height:1.5; max-width:44ch; margin:0;}
+  .closing .attr{font-family:'Space Mono', monospace; font-style:normal; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); display:block; margin-top:14px;}
+
+  /* ---------- FOOTER NAV ---------- */
+  .case-nav{display:flex; justify-content:space-between; padding:32px 0; border-top:1px solid var(--line); font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em;}
+  .case-nav a{text-decoration:none;}
+  .case-nav a:hover{color:var(--cobalt);}
+  footer.contact{padding:32px 0 60px; font-family:'Space Mono', monospace; font-size:12px; display:flex; gap:24px; justify-content:center;}
+  .more-work{padding-top:44px; border-top:1px solid var(--line); margin-top:56px;}
+  .more-work-label{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:20px;}
+  .more-work-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .more-work-item{text-decoration:none; display:block; position:relative;}
+  .more-work-frame{
+    position:relative;
+    aspect-ratio:4/3; background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:10px; overflow:hidden;
+    transform:rotate(var(--tilt, 0deg)); transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .more-work-item:hover .more-work-frame{transform:rotate(0deg) scale(1.02); box-shadow:0 14px 26px -12px rgba(25,26,30,0.3);}
+  .more-work-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .more-work-title{font-family:'Instrument Serif', serif; font-size:17px; color:var(--ink); margin-bottom:4px;}
+  .more-work-tags{font-family:'Space Mono', monospace; font-size:10.5px; color:var(--ink-soft);}
+  @media (max-width:760px){
+    .more-work-grid{grid-template-columns:1fr; gap:32px;}
+  }
+  footer.contact a{text-decoration:none;}
+  footer.contact a:hover{color:var(--cobalt);}
+
+  @media (max-width:760px){
+    .details-grid, .impact-grid, .people-grid, .comp-grid{grid-template-columns:1fr;}
+    .week-grid{grid-template-columns:1fr; gap:36px; margin-top:32px; margin-bottom:24px;}
+    .week-day-card{margin-top:6px;}
+    .section-head{margin-bottom:24px;}
+    .cs-section{padding:52px 0;}
+    .result-numbers .num{font-size:56px;}
+    .compare-grid{grid-template-columns:1fr;}
+    .compare-grid-3 .compare-item{width:100%; margin-left:0 !important; margin-top:16px !important;}
+    .compare-frame, .cover-laptop, .design-frame{margin-left:auto; margin-right:auto;}
+    .compare-frame img, .compare-frame video, .design-frame img{margin:0 auto;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-row wide">
+    <a href="index.html" class="wordmark">haemin<em>hwang</em></a>
+    <div class="nav-links">
+      <a href="play.html">play</a>
+      <a href="about.html">about</a>
+      <a href="Resume2026.pdf">resume</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="cover-meta" style="border-bottom:none; margin-bottom:0; padding:40px 0 0; text-align:center;">
+    <h1 class="cs-title">⏩️ Payroll Migration</h1>
+    <div class="meta-row" style="margin-top:24px;">
+      <span class="brand">@quickbooks</span>
+      <span>ai-assisted design</span>
+      <span>field research</span>
+      <span>in progress</span>
+    </div>
+  </div>
+</div>
+
+<div class="wide">
+  <div class="cover-laptop">
+    <video src="cover-video.mp4" autoplay muted loop playsinline></video>
+    <div class="edge-fade left"></div>
+    <div class="edge-fade right"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="summary-card" style="margin-top:56px; --tilt:-1deg;">
+    <div class="tape"></div>
+    <p class="cs-summary">What accountants told us about payroll import, and how we turned
+    an A/B test we thought we'd already won into a research-backed, AI-assisted redesign.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="details-grid" style="margin-top:40px;">
+    <div class="col">
+      <b>Surface</b>
+      <p>QuickBooks Payroll onboarding — import flow for firms switching from Gusto, ADP, and Paychex</p>
+    </div>
+    <div class="col">
+      <b>Team</b>
+      <p>1 Product Manager · 3 Engineers · Designer (me) · 8 Partner Council Accountants</p>
+    </div>
+    <div class="col">
+      <b>Scope</b>
+      <p>A/B Testing · Field Research · Prototyping · AI-Assisted Design</p>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="cs-section">
+    <div class="eyebrow-label">THE PROBLEM</div>
+    <div class="section-head">Moving payroll to QuickBooks meant re-keying everything by hand, so switching felt riskier than staying put</div>
+    <p class="section-body">Accountants migrating clients from Gusto, ADP, or Paychex had no
+    guided way to bring historical payroll data into QuickBooks. The team's early bet was
+    that the fix was speed: get accountants through import fast, with AI doing as much of
+    the heavy lifting as possible.</p>
+  </section>
+
+  <!-- INITIAL APPROACH: A/B TEST -->
+  <section class="cs-section">
+    <div class="eyebrow-label">INITIAL APPROACH — A/B TEST</div>
+    <div class="section-head">We tested a faster, more agentic import flow against the existing guided one</div>
+    <p class="section-body">Most users were opting for manual entry over our upload feature,
+    even though upload was faster. We ran an A/B test to see whether surfacing the upload
+    steps more clearly, showing users exactly what the process looked like, would prompt
+    more of them to choose upload over typing everything in by hand. Control kept the
+    existing flow, where upload was available but not emphasized. Test walked users through
+    the upload steps up front, before they had a chance to default to manual entry.</p>
+    <p class="section-body">Both variants included a human-in-the-loop step: a human payroll
+    expert reviewed the AI's extracted upload before it was finalized, catching errors the
+    model missed. It was meant as a safety net behind the automation — not yet the centerpiece
+    of the experience.</p>
+    <!-- EDIT: swap these two frames for your real control/test screenshots -->
+    <div class="compare-grid">
+      <div class="compare-item">
+        <div class="compare-frame" style="margin-top:0; aspect-ratio:auto; display:block;">
+          <video src="control-flow.mp4" autoplay muted loop playsinline style="width:100%; height:auto; display:block;"></video>
+        </div>
+        <span class="cf-label">control: guided, step-by-step</span>
+      </div>
+      <div class="compare-item after">
+        <div class="compare-frame" style="margin-top:0; aspect-ratio:auto; display:block;">
+          <video src="test-flow.mp4" autoplay muted loop playsinline style="width:100%; height:auto; display:block;"></video>
+        </div>
+        <span class="cf-label">test: upload-first, agentic</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULT OF A/B TEST -->
+  <section class="cs-section">
+    <div class="eyebrow-label">RESULT</div>
+    <div class="section-head">Test moved the metrics we were watching — but it couldn't tell us why accountants still hesitated</div>
+    <!-- EDIT: swap in your real lift numbers -->
+    <div class="result-numbers">
+      <span class="num">+X%</span>
+      <span class="arrow">→</span>
+      <span class="num">completion</span>
+    </div>
+    <div class="result-caption">EDIT: replace with real A/B test metric &amp; timeframe</div>
+    <p class="section-body" style="margin-top:20px;">The test variant looked like a win on
+    paper. But the data could only tell us what happened, not why some accountants still
+    dropped off, or why the ones who finished didn't fully trust what they saw. That gap
+    is what sent us into the field.</p>
+  </section>
+
+  <!-- PARTNER COUNCIL -->
+  <section class="cs-section">
+    <div class="eyebrow-label">PARTNER COUNCIL</div>
+    <div class="section-head">A week embedded with the accountants the A/B test could never explain</div>
+    <p class="section-body">The Intuit Partner Council is a select group of accounting
+    professionals who provide strategic feedback to shape QuickBooks products. Our on-site
+    sessions were structured around gallery walks, a format where accountants engage
+    directly with live prototypes and share unfiltered feedback.</p>
+  </section>
+
+  <!-- WEEK AT A GLANCE -->
+  <section class="cs-section">
+    <div class="eyebrow-label">THE WEEK AT A GLANCE</div>
+    <div class="section-head">Four days, moving from whiteboarding to gallery walks with accountants across firm sizes</div>
+    <div class="week-grid">
+      <div class="week-day">
+        <div class="day-label">Mon</div>
+        <div class="week-day-card" style="--tilt:-1deg;">
+          <div class="tape" style="width:56px; height:18px; top:-9px;"></div>
+          <div class="format">Whiteboarding + Gallery Walk</div>
+          <div class="count">1 accountant</div>
+          <div class="focus">Prototype walkthrough with Zane Stevens</div>
+        </div>
+      </div>
+      <div class="week-day">
+        <div class="day-label">Tue</div>
+        <div class="week-day-card" style="--tilt:1deg;">
+          <div class="tape" style="width:56px; height:18px; top:-9px; transform:translateX(-50%) rotate(2deg);"></div>
+          <div class="format">Whiteboarding + Gallery Walk</div>
+          <div class="count">1 accountant</div>
+          <div class="focus">Team alignment on import re-imagination</div>
+        </div>
+      </div>
+      <div class="week-day">
+        <div class="day-label">Wed</div>
+        <div class="week-day-card" style="--tilt:-0.75deg;">
+          <div class="tape" style="width:56px; height:18px; top:-9px; transform:translateX(-50%) rotate(-4deg);"></div>
+          <div class="format">Pre-Council Session</div>
+          <div class="count">3 accountants</div>
+          <div class="focus">Current onboarding gaps deep-dive</div>
+        </div>
+      </div>
+      <div class="week-day">
+        <div class="day-label">Thu</div>
+        <div class="week-day-card" style="--tilt:1.25deg;">
+          <div class="tape" style="width:56px; height:18px; top:-9px; transform:translateX(-50%) rotate(3deg);"></div>
+          <div class="format">Gallery Walks</div>
+          <div class="count">3 accountants</div>
+          <div class="focus">Validation pain points + future wishlist</div>
+        </div>
+      </div>
+    </div>
+    <p class="week-caption" style="margin-top:56px;">Perspectives from small, large, and mega-large accounting firms — from 1-person practices to 200+ client operations.</p>
+  </section>
+
+  <!-- THE REFRAME -->
+  <section class="cs-section">
+    <div class="eyebrow-label">THE REFRAME</div>
+    <div class="section-head">Accountants want accuracy. We'd been optimizing for speed.</div>
+    <ul class="point-list">
+      <li><b>What we assumed:</b> speed is the competitive advantage, agentic import means frictionless wins, users want QuickBooks to "do it for them."</li>
+      <li><b>What accountants told us:</b> payroll should never be rushed, they want to check every line themselves. "Could you do it in a day? Yes. Should you?"</li>
+    </ul>
+    <p class="section-body" style="margin-top:18px;">The resolution wasn't picking a winner
+    between control and test. It was duality: a guided experience accountants can control,
+    plus an agentic mode they can cross-reference against it.</p>
+  </section>
+
+  <!-- KEY INSIGHTS -->
+  <section class="cs-section">
+    <div class="eyebrow-label">WHAT WE HEARD</div>
+    <div class="section-head">Six themes, consistent across all four days and every firm size</div>
+    <div style="margin-top:28px;">
+      <div class="insight"><div class="n">01</div><p><b>Validate everything.</b> Accountants want to see exactly where data is pulled from and check every line before accepting it.</p></div>
+      <div class="insight"><div class="n">02</div><p><b>Prep checklist missing.</b> No clear list of what to have on hand — this alone kills confidence and drives users back to manual entry.</p></div>
+      <div class="insight"><div class="n">03</div><p><b>Rigid validation blocks.</b> The system stops entirely if imported numbers don't match. "Just read what it is" — fix later.</p></div>
+      <div class="insight"><div class="n">04</div><p><b>PII + AI = legal risk.</b> Serious concerns about SSNs, names, and addresses going through cloud-based AI agents.</p></div>
+      <div class="insight"><div class="n">05</div><p><b>UI built for SMB, not accountants.</b> Full-screen, simplified views and AI panels hog space. Accountants manage 200+ clients and need density.</p></div>
+      <div class="insight"><div class="n">06</div><p><b>Personalize by prior provider.</b> "Tell me what payroll reports to pull from Gusto." Every accountant wants instructions tailored to their source.</p></div>
+    </div>
+  </section>
+
+  <!-- TWO USERS -->
+  <section class="cs-section">
+    <div class="eyebrow-label">TWO USERS, ONE IMPORT FLOW</div>
+    <div class="section-head">The A/B test pitted one flow against two audiences with opposite needs</div>
+    <div class="opp-table-wrap">
+      <table class="opp-table">
+        <thead><tr><th>Category</th><th>Accountant</th><th>SMB Owner</th></tr></thead>
+        <tbody>
+          <tr><td>Priority</td><td>Accuracy above all else</td><td>Speed and simplicity</td></tr>
+          <tr><td>Validation</td><td>Check every line manually</td><td>Just needs it to work</td></tr>
+          <tr><td>View</td><td>Dense, spreadsheet-like</td><td>Clean, guided, step-by-step</td></tr>
+          <tr><td>AI</td><td>Sceptical — PII concerns</td><td>Open to full automation</td></tr>
+          <tr><td>Prep</td><td>Provider-specific checklist</td><td>Simple "what you'll need"</td></tr>
+          <tr><td>Error fixing</td><td>Self-serve amendments</td><td>Guided support / call</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- COMPETITIVE -->
+  <section class="cs-section" style="border-bottom:none;">
+    <div class="eyebrow-label">HOW WE STACK UP</div>
+    <div class="section-head">Accountants named Gusto and ADP as top competitors — each does one thing we didn't yet do well</div>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <h4>Gusto</h4>
+        <div class="sub">Fast but opaque</div>
+        <div class="grp-label">Strengths</div>
+        <ul><li>Anchors to a specific payday</li><li>AI assistant (Gus) handles complex tasks</li></ul>
+        <div class="grp-label">Gap</div>
+        <ul><li>Limited explainability</li><li>Users don't know why decisions were made</li></ul>
+      </div>
+      <div class="comp-card">
+        <h4>ADP</h4>
+        <div class="sub">Trusted but slow</div>
+        <div class="grp-label">Strengths</div>
+        <ul><li>High-touch validation for complex historical data</li><li>Strong accuracy reputation</li></ul>
+        <div class="grp-label">Gap</div>
+        <ul><li>Slow and manual</li><li>Validation costs speed</li></ul>
+      </div>
+      <div class="comp-card" style="border-color:var(--cobalt);">
+        <h4>QuickBooks</h4>
+        <div class="sub">Opportunity to win both</div>
+        <div class="grp-label">Strengths</div>
+        <ul><li>Deep QBO integration</li><li>Positioned to offer guided AND agentic</li></ul>
+        <div class="grp-label">Gap</div>
+        <ul><li>Rigid validation = hard blockers</li><li>Perceived as not built for accountant workflows</li></ul>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- AI-ASSISTED REDESIGN -->
+<div class="wrap">
+  <div class="decision-block" style="padding-top:52px;">
+    <div class="decision-tag">CLOSING THE LOOP</div>
+    <div class="section-head">Rather than starting over, we used AI to rapidly re-test the original flow against what we'd just learned</div>
+    <p class="section-body">The upload-first prototype we'd shown Zane on day one had no
+    checklist, no prep guidance, no provider context — it optimized for the exact thing
+    Partner Council told us to deprioritize. We used AI-assisted generation to iterate
+    checklist layouts, provider-specific copy, and validation states quickly enough to
+    bring a reframed prototype back within the same sprint.</p>
+  </div>
+
+  <div class="decision-block">
+    <div class="decision-tag">DECISION 01</div>
+    <div class="section-head">Replaced the upload-first flow with a guided, provider-personalized checklist</div>
+    <p class="section-body">Zane said it first on Monday, and we heard it every day after:
+    "Payroll should never be rushed. I want to check every line." Speed was our bet.
+    Accuracy was their need. The checklist wasn't a small addition — it was the core
+    missing piece that unlocked trust in the entire import flow.</p>
+    <div class="compare-grid">
+      <div class="compare-item">
+        <div class="compare-frame" id="d1-frame-1" style="margin-top:0; aspect-ratio:auto; display:block; overflow:hidden;">
+          <img src="pre-council-v5.png" alt="Pre-Council prototype: How do you want to set up payroll, with upload reports flow" style="width:100%; height:100%; object-fit:cover; object-position:top; display:block;">
+        </div>
+        <span class="cf-label">what we showed</span>
+      </div>
+      <div class="compare-item after">
+        <div class="compare-frame" id="d1-frame-2" style="margin-top:0; aspect-ratio:auto; display:block;">
+          <img id="d1-img-2" src="checklist-reimagined.png" alt="Reimagined checklist: Add your team by using your info from Gusto, with what you'll need and upload panels" style="width:100%; height:auto; display:block;">
+        </div>
+        <span class="cf-label">what we (re)imagined</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="decision-block" style="border-bottom:none;">
+    <div class="decision-tag">DECISION 02</div>
+    <div class="section-head">Removed hard blockers — accept, flag, fix later</div>
+    <p class="section-body">Hard blockers destroy trust. The redesign accepts historical data
+    as-is, flags discrepancies inline, and lets accountants resolve them at their own pace
+    after import succeeds — instead of stopping the entire flow the moment a number looks off.</p>
+    <ul class="point-list" style="margin-top:20px;">
+      <li><b>Before:</b> generic flow, same for new users and switchers; no prep checklist; no way to cross-reference imported vs. source data; overwhelming onboarding on first view.</li>
+      <li><b>After:</b> switcher-identified flow with personalized prep checklist; agentic
+      experience of imported data with the option to review manually; flags discrepancies
+      inline; accept-and-flag import with no hard blockers on historical data.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- DESIGN PRINCIPLES -->
+  <section class="cs-section">
+    <div class="eyebrow-label">DESIGN PRINCIPLES FROM THE FIELD</div>
+    <div class="section-head">What held up across all four days, and what we're building from now</div>
+    <div style="margin-top:28px;">
+      <div class="insight"><div class="n">01</div><p><b>Show your sources.</b> Accountants don't trust data they can't trace. Every imported value needs a visible origin.</p></div>
+      <div class="insight"><div class="n">02</div><p><b>Prepare before you import.</b> Confidence is built in the prep stage, not recovered from errors after the fact.</p></div>
+      <div class="insight"><div class="n">03</div><p><b>Accuracy over speed.</b> For accountants, a fast mistake is worse than a slow success. Frame control, not speed.</p></div>
+      <div class="insight"><div class="n">04</div><p><b>Accept, flag, fix later.</b> Import the data, surface anomalies inline, resolve at own pace.</p></div>
+      <div class="insight"><div class="n">05</div><p><b>Design for the operator.</b> The accountant managing 200 clients needs density and audit tools. The SMB owner needs simplicity.</p></div>
+      <div class="insight"><div class="n">06</div><p><b>Personalize by context.</b> "Payroll reports" means nothing. "Pull the YTD Summary from Gusto" means everything.</p></div>
+    </div>
+  </section>
+
+  <!-- WHAT'S NEXT -->
+  <section class="closing">
+    <div class="eyebrow-label">WHAT'S NEXT</div>
+    <p>"Payroll should never be rushed. I want to check every line."
+      <span class="attr">— Zane Stevens, Protea Financial</span>
+    </p>
+    <p class="section-body" style="margin-top:22px; max-width:56ch; font-family:'Poppins',sans-serif; font-style:normal; font-size:15.5px;">
+      The checklist prototype enters development next sprint, alongside removing hard
+      import blockers. Longer-term: rethinking how the agentic experience fits into
+      payroll onboarding at all, and scaling the import feature for firms managing
+      200+ clients.
+    </p>
+  </section>
+
+  <div class="more-work">
+    <div class="more-work-label">more work</div>
+    <div class="more-work-grid">
+      <a href="case-study-switchers.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:-2deg;"><img src="homepage-switchers.jpg" alt="Onboarding Switchers"></div>
+        <div class="more-work-title">Onboarding switchers</div>
+        <div class="more-work-tags">@mailchimp · visual design</div>
+      </a>
+      <a href="case-study-integrations.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:1.5deg;"><img src="homepage-integrations.png" alt="First Time User Integration Recommendations"></div>
+        <div class="more-work-title">Integration recommendations</div>
+        <div class="more-work-tags">@mailchimp · ai models</div>
+      </a>
+      <a href="case-study-heartbreakers.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:-1deg;"><img src="homepage-heartbreakers.png" alt="Credit Karma Money Heartbreakers"></div>
+        <div class="more-work-title">Heartbreaker experience</div>
+        <div class="more-work-tags">@turbotax · systems thinking</div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="contact">
+    <a href="mailto:haeminhwang2000@gmail.com">📮 email</a>
+    <a href="https://www.linkedin.com/in/haeminhwang/">🔗 linkedin</a>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.summary-card, .week-day-card').forEach(frame=>{
+    frame.addEventListener('mousemove', (e)=>{
+      const r = frame.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      frame.style.transform = `rotate(0deg) perspective(700px) rotateX(${y*-4}deg) rotateY(${x*4}deg) scale(1.015)`;
+    });
+    frame.addEventListener('mouseleave', ()=>{ frame.style.transform = ''; });
+  });
+
+  function matchDecision1Heights(){
+    const frame1 = document.getElementById('d1-frame-1');
+    const frame2 = document.getElementById('d1-frame-2');
+    if(frame1 && frame2 && frame2.offsetHeight > 0){
+      frame1.style.height = frame2.offsetHeight + 'px';
+    }
+  }
+  const d1img2 = document.getElementById('d1-img-2');
+  if(d1img2){
+    if(d1img2.complete){ matchDecision1Heights(); }
+    d1img2.addEventListener('load', matchDecision1Heights);
+  }
+  window.addEventListener('resize', matchDecision1Heights);
+</script>
+
+</body>
+</html>

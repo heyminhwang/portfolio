@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>First Time User Integration Recommendations — Haemin Hwang</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Poppins:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F2EFE6;
+    --paper-dim:#EAE6D9;
+    --ink:#191A1E;
+    --ink-soft:#5B5C60;
+    --cobalt:#3350FF;
+    --mint:#C9FF7A;
+    --coral:#FF5B49;
+    --line: rgba(25,26,30,0.14);
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:'Poppins', sans-serif; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;}
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:0.05;
+    mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .wrap{max-width:900px; margin:0 auto; padding:0 32px;}
+  .wide{max-width:1180px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{position:sticky; top:0; z-index:100; background:var(--paper); border-bottom:1px solid var(--line);}
+  .nav-row{display:flex; align-items:center; justify-content:space-between; padding:18px 32px;}
+  .wordmark{font-family:'Instrument Serif', serif; font-size:22px; letter-spacing:0.01em; text-decoration:none;}
+  .wordmark em{color:var(--cobalt); font-style:italic;}
+  .nav-links{display:flex; gap:28px; align-items:center;}
+  .nav-links a{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.06em; text-decoration:none; color:var(--ink);
+    position:relative; padding-bottom:2px;
+  }
+  .nav-links a::after{
+    content:""; position:absolute; left:0; bottom:-2px;
+    width:0; height:1px; background:var(--cobalt);
+    transition:width .25s ease;
+  }
+  .nav-links a:hover::after{width:100%;}
+  .nav-links a.cta{background:var(--ink); color:var(--paper); padding:8px 14px; border-radius:var(--radius);}
+  .nav-links a.cta:hover{color:var(--paper);}
+
+  /* ---------- COVER ---------- */
+  /* ---------- GRADIENT HERO ---------- */
+  .cover-laptop{
+    margin:40px 0 0; position:relative; aspect-ratio:16/9; overflow:hidden;
+    border-radius:var(--radius); background:var(--paper);
+  }
+  .cover-laptop video{width:100%; height:100%; object-fit:contain; display:block;}
+  .cover-laptop .edge-fade{position:absolute; top:0; bottom:0; width:20%; pointer-events:none;}
+  .cover-laptop .edge-fade.left{left:0; background:linear-gradient(to right, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .cover-laptop .edge-fade.right{right:0; background:linear-gradient(to left, var(--paper) 0%, rgba(242,239,230,0.85) 25%, rgba(242,239,230,0.4) 60%, rgba(242,239,230,0) 100%);}
+  .summary-card{
+    position:relative; margin:32px auto 0; max-width:62ch;
+    border:1px solid var(--line); border-radius:var(--radius); padding:28px 32px;
+    background:var(--paper-dim); text-align:center;
+    transform:rotate(var(--tilt, -1deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .summary-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .summary-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:22px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .summary-card .cs-summary{margin:0; max-width:none;}
+  .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:70px; height:22px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+    z-index:2;
+  }
+  .cover-meta{position:relative; z-index:2; padding:36px 0 44px; border-bottom:1px solid var(--line); margin-bottom:44px;}
+  h1.cs-title{
+    font-family:'Instrument Serif', serif; font-weight:400; font-style:normal;
+    font-size:clamp(22px,3.4vw,38px); line-height:1.15; letter-spacing:-0.01em;
+    margin:0 0 18px; max-width:100%; white-space:nowrap;
+  }
+  @media (max-width:640px){
+    h1.cs-title{white-space:normal; text-wrap:balance;}
+  }
+  .cs-summary{font-size:17px; line-height:1.6; color:var(--ink-soft); max-width:62ch; margin:0 0 26px;}
+  .meta-row{
+    display:flex; flex-wrap:wrap; align-items:center; gap:10px; justify-content:center;
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em;
+    color:var(--ink-soft);
+  }
+  .meta-row .dot{width:7px; height:7px; border-radius:50%; background:var(--cobalt); animation:pulse 1.8s ease-in-out infinite; flex:0 0 auto;}
+  .meta-row span{color:var(--ink-soft);}
+  .meta-row span:not(:last-child)::after{content:"·"; margin-left:10px; color:var(--ink-soft);}
+  .meta-row span.brand{color:var(--cobalt);}
+  .meta-row span.status{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+
+  /* ---------- DETAILS 3-COL ---------- */
+  .details-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:28px;
+    padding-bottom:44px; margin-bottom:44px; border-bottom:1px solid var(--line);
+  }
+  .details-grid .col b{
+    display:block; font-family:'Space Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-bottom:8px;
+  }
+  .details-grid .col p{margin:0; font-size:14.5px; line-height:1.55;}
+
+  /* ---------- SECTION EYEBROW + HEAD ---------- */
+  section.cs-section{padding:52px 0; border-bottom:1px solid var(--line);}
+  .eyebrow-label{
+    font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase;
+    letter-spacing:0.08em; color:var(--cobalt); margin-bottom:16px;
+  }
+  .section-head{
+    font-family:'Poppins', sans-serif; font-weight:400; font-size:24px;
+    line-height:1.4; letter-spacing:-0.01em; max-width:44ch; margin:0 0 18px;
+    text-wrap:balance;
+  }
+  .section-body{font-size:15.5px; line-height:1.7; color:var(--ink-soft); max-width:60ch;}
+  .section-body + .section-body{margin-top:14px;}
+
+  ul.point-list{list-style:none; margin:20px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; max-width:60ch;}
+  ul.point-list li{
+    font-size:15px; line-height:1.6; color:var(--ink-soft);
+    padding-left:22px; position:relative;
+  }
+  ul.point-list li::before{content:"—"; position:absolute; left:0; color:var(--cobalt);}
+  ul.point-list li b{color:var(--ink); font-weight:600;}
+
+  /* ---------- RESULT (big before/after) ---------- */
+  .result-numbers{display:flex; align-items:baseline; gap:28px; margin:24px 0 8px;}
+  .result-numbers .num{font-family:'Instrument Serif', serif; font-size:88px; color:var(--cobalt); line-height:1;}
+  .result-numbers .arrow{font-size:28px; color:var(--ink-soft);}
+  .result-caption{font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft);}
+
+  /* ---------- IMPACT STAT CARDS ---------- */
+  .impact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:8px;}
+  .impact-card{
+    position:relative;
+    border:1px solid var(--line); border-radius:var(--radius); padding:24px;
+    background:var(--paper-dim);
+    transform:rotate(var(--tilt, 0deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .impact-card:hover{box-shadow:0 18px 30px -14px rgba(25,26,30,0.3);}
+  .impact-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:60px; height:20px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .impact-card .tape{
+    position:absolute; top:-10px; left:50%; transform:translateX(-50%) rotate(-3deg);
+    width:60px; height:20px;
+    background:rgba(201,255,122,0.55);
+    border:1px dashed rgba(25,26,30,0.3);
+  }
+  .impact-card .n{
+    font-family:'Space Mono', monospace; font-size:11px; letter-spacing:0.05em;
+    color:var(--ink-soft); margin-bottom:16px;
+  }
+  .impact-card .stat{font-family:'Instrument Serif', serif; font-size:44px; color:var(--cobalt); line-height:1; margin-bottom:12px;}
+  .impact-card .label{font-weight:600; font-size:14.5px; margin-bottom:8px;}
+  .impact-card .desc{font-size:13.5px; line-height:1.55; color:var(--ink-soft);}
+
+  /* ---------- KEY INSIGHTS ---------- */
+  .insight{display:flex; gap:16px; margin-bottom:22px;}
+  .insight .n{font-family:'Instrument Serif', serif; font-size:22px; color:var(--cobalt); flex:0 0 auto;}
+  .insight p{margin:0; font-size:15px; line-height:1.6; color:var(--ink-soft);}
+  .insight p b{color:var(--ink);}
+
+  /* ---------- DESIGN BREAKDOWN ---------- */
+  .design-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .design-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:12px;}
+  .design-frame{
+    aspect-ratio:16/9; margin-top:24px;
+    background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    transform:rotate(var(--tilt, -1.5deg));
+    transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .design-frame:hover{transform:rotate(0deg) scale(1.015); box-shadow:0 18px 30px -14px rgba(25,26,30,0.35);}
+
+  /* ---------- BEFORE/AFTER COMPARISON ---------- */
+  .compare-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:24px;}
+  .compare-frame{position:relative; aspect-ratio:4/3; background:linear-gradient(135deg, var(--paper-dim), #DCD6C2); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden;}
+  .compare-frame img{width:100%; height:100%; object-fit:cover; object-position:top; display:block;}
+  .compare-frame .cf-label{
+    position:absolute; top:10px; left:10px;
+    font-family:'Space Mono', monospace; font-size:10px; text-transform:uppercase; letter-spacing:0.06em;
+    padding:4px 9px; border-radius:20px; background:var(--paper); border:1px solid var(--line); color:var(--ink-soft);
+  }
+  .compare-frame.after .cf-label{background:var(--mint); border-color:var(--mint); color:var(--ink);}
+  .decision-block{padding:52px 0; border-bottom:1px solid var(--line);}
+  .decision-tag{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--cobalt); margin-bottom:12px;}
+  .flow-diagram{
+    position:relative;
+    margin:28px auto 0; padding:24px; max-width:920px;
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--paper-dim); overflow-x:auto;
+    display:flex; justify-content:center;
+  }
+  .flow-diagram svg{width:100%; max-width:1100px; min-width:680px; height:auto; display:block; margin:0 auto;}
+
+  /* ---------- CLOSING ---------- */
+  .closing{padding:64px 0; text-align:left;}
+  .closing p{font-family:'Instrument Serif', serif; font-style:italic; font-size:clamp(20px,2.6vw,28px); line-height:1.5; max-width:38ch; margin:0;}
+
+  /* ---------- FOOTER NAV ---------- */
+  .case-nav{display:flex; justify-content:space-between; padding:32px 0; border-top:1px solid var(--line); font-family:'Space Mono', monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.05em;}
+  .case-nav a{text-decoration:none;}
+  .case-nav a:hover{color:var(--cobalt);}
+  footer.contact{padding:32px 0 60px; font-family:'Space Mono', monospace; font-size:12px; display:flex; gap:24px; justify-content:center;}
+  .more-work{padding-top:44px; border-top:1px solid var(--line); margin-top:56px;}
+  .more-work-label{font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:20px;}
+  .more-work-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  .more-work-item{text-decoration:none; display:block; position:relative;}
+  .more-work-frame{
+    position:relative;
+    aspect-ratio:4/3; background:linear-gradient(135deg, var(--paper-dim), #DCD6C2);
+    border:1px solid var(--line); border-radius:var(--radius);
+    margin-bottom:10px; overflow:hidden;
+    transform:rotate(var(--tilt, 0deg)); transition:transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+  }
+  .more-work-item:hover .more-work-frame{transform:rotate(0deg) scale(1.02); box-shadow:0 14px 26px -12px rgba(25,26,30,0.3);}
+  .more-work-frame img{width:100%; height:100%; object-fit:cover; display:block;}
+  .more-work-title{font-family:'Instrument Serif', serif; font-size:17px; color:var(--ink); margin-bottom:4px;}
+  .more-work-tags{font-family:'Space Mono', monospace; font-size:10.5px; color:var(--ink-soft);}
+  @media (max-width:760px){
+    .more-work-grid{grid-template-columns:1fr; gap:32px;}
+  }
+  footer.contact a{text-decoration:none;}
+  footer.contact a:hover{color:var(--cobalt);}
+
+  @media (max-width:760px){
+    .details-grid, .impact-grid{grid-template-columns:1fr;}
+    .result-numbers .num{font-size:56px;}
+    .compare-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-row wide">
+    <a href="index.html" class="wordmark">haemin<em>hwang</em></a>
+    <div class="nav-links">
+      <a href="play.html">play</a>
+      <a href="about.html">about</a>
+      <a href="Resume2026.pdf">resume</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="cover-meta" style="border-bottom:none; margin-bottom:0; padding:40px 0 0; text-align:center;">
+    <h1 class="cs-title">🥚 First Time User Integration Recommendations</h1>
+    <div class="meta-row" style="margin-top:24px;">
+      <span class="brand">@mailchimp</span>
+      <span>ai models</span>
+      <span>platform mindset</span>
+      <span>shipped · may 2025</span>
+    </div>
+  </div>
+</div>
+
+<div class="wide">
+  <div class="cover-laptop">
+    <video src="laptop-screen-video.mp4" poster="laptop-screen-poster.jpg" autoplay muted loop playsinline></video>
+    <div class="edge-fade left"></div>
+    <div class="edge-fade right"></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="summary-card" style="margin-top:56px; --tilt:-1deg;">
+    <div class="tape"></div>
+    <p class="cs-summary">I designed a full-screen experience in the onboarding flow to
+    recommend relevant integrations to new users based on their business type and URL,
+    significantly increasing integration connection rates and improving customer payoff.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="details-grid" style="margin-top:40px;">
+    <div class="col">
+      <b>Surface</b>
+      <p>Full-screen takeover in the onboarding flow, with a homepage task fallback</p>
+    </div>
+    <div class="col">
+      <b>Team</b>
+      <p>1 Product Manager · 3 Engineers · 1 Designer (me) · 6 AI Data Science &amp; ML Scientists</p>
+    </div>
+    <div class="col">
+      <b>Scope</b>
+      <p>Product Design · User Research · Prototyping</p>
+    </div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="cs-section">
+    <div class="eyebrow-label">THE PROBLEM</div>
+    <div class="section-head">A smoother transition for Mailchimp switchers, but the system only reached one segment</div>
+    <p class="section-body">The existing system targeted self-reported e-commerce customers
+    right after account setup, prompting them to connect their store. It worked well for
+    that segment, but missed everyone else: non-e-commerce customers and anyone who
+    skipped the e-commerce question got no relevant recommendations at all. That gap
+    capped the overall connection rate and likely cost payoff and retention across a
+    much broader slice of new users.</p>
+  </section>
+
+  <!-- RESULT -->
+  <section class="cs-section">
+    <div class="eyebrow-label">RESULT</div>
+    <div class="section-head">A personalized onboarding moment that lifted connection rate across the board</div>
+    <p class="section-body">The solution: a First-Time User Recommendations experience
+    powered by an A2D model, informed by web-scraped and third-party data, that surfaces
+    a ranked list of relevant integrations for non-e-commerce users with a known URL. It
+    appears as a full-screen moment right after account setup, with a fallback task on
+    the homepage if it's not completed right away.</p>
+    <div class="result-numbers">
+      <span class="num">+677</span>
+      <span class="result-caption">bps lift in 14-day<br>integration connection rate</span>
+    </div>
+    <p class="section-body">Driven by both non-ecommerce (604 bps) and e-commerce (73 bps)
+    integrations, expanding a strategy that had previously only worked for
+    self-reported e-commerce customers.</p>
+    <div class="impact-grid" style="margin-top:32px;">
+      <div class="impact-card" style="--tilt:-1deg;">
+        <div class="tape" style="transform:translateX(-50%) rotate(-3deg);"></div>
+        <div class="n">01</div>
+        <div class="stat">677<span style="font-size:22px;">bps</span></div>
+        <div class="label">14D Connection Rate Lift</div>
+        <div class="desc">Across non-ecommerce and e-commerce segments combined, expanding a win that used to be e-commerce-only.</div>
+      </div>
+      <div class="impact-card" style="--tilt:1deg;">
+        <div class="tape" style="transform:translateX(-50%) rotate(2deg);"></div>
+        <div class="n">02</div>
+        <div class="stat">31.2%</div>
+        <div class="label">View-to-Click Rate</div>
+        <div class="desc">Of users who saw the recommendation screen, nearly a third clicked to connect an integration.</div>
+      </div>
+      <div class="impact-card" style="--tilt:-1.5deg;">
+        <div class="tape" style="transform:translateX(-50%) rotate(-2deg);"></div>
+        <div class="n">03</div>
+        <div class="stat">15%</div>
+        <div class="label">Completion Rate</div>
+        <div class="desc">Completed a full connection, outperforming the prior e-commerce-only takeover experience.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="cs-section">
+    <div class="eyebrow-label">CONTEXT</div>
+    <div class="section-head">Customers who integrate their tools pay off and retain at higher rates.</div>
+    <p class="section-body">A June 2024 experiment had already proven this out for
+    e-commerce customers, lifting integration connections by over 40%. The team's next
+    goal was to extend that same win to a broader audience.</p>
+  </section>
+
+  <!-- KEY DECISIONS -->
+  <section class="cs-section" style="border-bottom:none;">
+    <div class="eyebrow-label">KEY DECISIONS</div>
+    <div class="section-head">Two calls that shaped the experience, and why I made them</div>
+    <p class="section-body">With limited time to size this opportunity, I partnered closely
+    with ML and Data Science and leaned on what we'd already learned from the earlier
+    e-commerce experiment rather than starting research from scratch.</p>
+  </section>
+</div>
+
+<!-- DECISION 1 -->
+<div class="wrap">
+  <div class="decision-block" style="border-bottom:none;">
+    <div class="decision-tag">DECISION 01</div>
+    <div class="section-head">Used direct, inclusive language instead of vague, e-commerce-specific copy</div>
+    <p class="section-body">The old copy referred to "business platforms," which read as
+    e-commerce-specific and didn't test well in prior research. I generalized it to "tools"
+    so the same screen felt relevant regardless of business type, and kept everything else
+    on the screen the same so we could isolate which change moved the metric.</p>
+    <div class="compare-grid">
+      <div class="compare-frame"><img src="decision1-before.jpg" alt="Before: Connect your business platform to Mailchimp"><span class="cf-label">before</span></div>
+      <div class="compare-frame after"><img src="decision1-after.jpg" alt="After: Connect your tools to Mailchimp"><span class="cf-label">after</span></div>
+    </div>
+  </div>
+
+  <!-- DECISION 2 -->
+  <div class="decision-block">
+    <div class="decision-tag">DECISION 02</div>
+    <div class="section-head">Replaced a static popularity list with a real-time, ranked model</div>
+    <p class="section-body">The previous list ranked integrations by overall popularity, not
+    relevance to the customer's business. I worked with ML and Data Science to surface a
+    ranked top-8 list from an A2D model informed by web-scraped and third-party signals,
+    with thresholding built in so low-confidence predictions never reached the screen.</p>
+    <div class="flow-diagram">
+  <svg viewBox="10 40 1320 700" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="#3350FF"></path>
+      </marker>
+    </defs>
+
+    <!-- ROW 1 -->
+    <polygon points="150,60 250,130 150,200 50,130" fill="#F2EFE6" stroke="#3350FF" stroke-width="2"></polygon>
+    <text x="150" y="122" text-anchor="middle" font-family="Poppins,sans-serif" font-size="15" fill="#191A1E">User selects</text>
+    <text x="150" y="142" text-anchor="middle" font-family="Poppins,sans-serif" font-size="15" fill="#191A1E">e-commerce in AS</text>
+
+    <rect x="380" y="80" width="220" height="100" rx="10" fill="#EAE6D9" stroke="#191A1E" stroke-opacity="0.14"></rect>
+    <text x="490" y="118" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">Full-screen overlay,</text>
+    <text x="490" y="138" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">static list ranked</text>
+    <text x="490" y="158" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">by popularity</text>
+
+    <polygon points="800,60 900,130 800,200 700,130" fill="#F2EFE6" stroke="#3350FF" stroke-width="2"></polygon>
+    <text x="800" y="122" text-anchor="middle" font-family="Poppins,sans-serif" font-size="15" fill="#191A1E">User selects</text>
+    <text x="800" y="142" text-anchor="middle" font-family="Poppins,sans-serif" font-size="15" fill="#191A1E">integration</text>
+
+    <rect x="1080" y="80" width="230" height="100" rx="10" fill="#EAE6D9" stroke="#191A1E" stroke-opacity="0.14"></rect>
+    <text x="1195" y="118" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">Navigate to their</text>
+    <text x="1195" y="138" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">integration</text>
+    <text x="1195" y="158" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">landing page</text>
+
+    <!-- ROW 1 arrows -->
+    <path d="M250,130 L370,130" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="310" y="112" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+    <text x="310" y="160" text-anchor="middle" font-family="Space Mono,monospace" font-size="11" fill="#5B5C60">~3,500 C1s/wk</text>
+
+    <path d="M600,130 L690,130" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="645" y="112" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+
+    <path d="M900,130 L1070,130" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="985" y="112" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+
+    <!-- C -> B loop (No) -->
+    <path d="M800,200 L800,260 L490,260 L490,190" stroke="#5B5C60" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="650" y="278" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#5B5C60">No</text>
+
+    <!-- ROW 1 -> ROW 2 -->
+    <path d="M150,200 L150,340" stroke="#5B5C60" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="95" y="270" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">No / skip</text>
+    <text x="175" y="290" text-anchor="middle" font-family="Space Mono,monospace" font-size="11" fill="#5B5C60">~27,000 C1s/wk</text>
+
+    <!-- ROW 2 -->
+    <polygon points="150,340 250,410 150,480 50,410" fill="#F2EFE6" stroke="#3350FF" stroke-width="2"></polygon>
+    <text x="150" y="402" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">User enters</text>
+    <text x="150" y="422" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">URL (50/50)</text>
+
+    <polygon points="490,340 590,410 490,480 390,410" fill="#F2EFE6" stroke="#3350FF" stroke-width="2"></polygon>
+    <text x="490" y="402" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">A2D model</text>
+    <text x="490" y="422" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">identifies integration</text>
+
+    <rect x="700" y="360" width="230" height="100" rx="10" fill="#EAE6D9" stroke="#191A1E" stroke-opacity="0.14"></rect>
+    <text x="815" y="398" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">Full-screen takeover:</text>
+    <text x="815" y="418" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">surface model</text>
+    <text x="815" y="438" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">recommendations</text>
+
+    <polygon points="1195,340 1295,410 1195,480 1095,410" fill="#F2EFE6" stroke="#3350FF" stroke-width="2"></polygon>
+    <text x="1195" y="402" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">User selects</text>
+    <text x="1195" y="422" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">integration</text>
+
+    <!-- ROW 2 arrows -->
+    <path d="M250,410 L380,410" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="315" y="392" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+    <text x="315" y="440" text-anchor="middle" font-family="Space Mono,monospace" font-size="11" fill="#5B5C60">~10,000 C1s/wk</text>
+
+    <path d="M590,410 L690,410" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="640" y="392" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes (~25%)</text>
+
+    <path d="M930,410 L1085,410" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="1005" y="392" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+
+    <!-- H -> D (row2 to row1) -->
+    <path d="M1195,340 L1195,190" stroke="#3350FF" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="1240" y="270" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#191A1E">Yes</text>
+
+    <!-- ROW 2 -> ROW 3 -->
+    <path d="M150,480 L150,620" stroke="#5B5C60" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="120" y="555" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#5B5C60">No</text>
+
+    <path d="M490,480 L490,620" stroke="#5B5C60" stroke-width="2" marker-end="url(#arrow)" fill="none"></path>
+    <text x="560" y="555" text-anchor="middle" font-family="Space Mono,monospace" font-size="12" fill="#5B5C60">No (~75%)</text>
+
+    <!-- ROW 3 -->
+    <rect x="35" y="620" width="230" height="100" rx="10" fill="#EAE6D9" stroke="#191A1E" stroke-opacity="0.14"></rect>
+    <text x="150" y="676" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">No change</text>
+
+    <rect x="375" y="620" width="230" height="100" rx="10" fill="#EAE6D9" stroke="#191A1E" stroke-opacity="0.14"></rect>
+    <text x="490" y="666" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">Show modal directing</text>
+    <text x="490" y="686" text-anchor="middle" font-family="Poppins,sans-serif" font-size="14" fill="#191A1E">them to the Store</text>
+  </svg>
+</div>
+  </div>
+</div>
+
+<div class="wrap">
+  <!-- WHAT'S NEXT -->
+  <section class="closing">
+    <div class="eyebrow-label">WHAT'S NEXT</div>
+    <p>Interjection designs clearly move the needle, and that gave us the data to be bolder.</p>
+    <p class="section-body" style="margin-top:18px; max-width:56ch;">I worked with the
+    Homepage team to expand the interjection beyond first-time setup, surfacing it on
+    subsequent logins too. I left the team before those changes shipped, but leadership
+    carried the experiment further, applying what we'd learned to other parts of the
+    product.</p>
+  </section>
+
+  <div class="more-work">
+    <div class="more-work-label">more work</div>
+    <div class="more-work-grid">
+      <a href="case-study-quickbooks.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:2deg;"><img src="homepage-payroll-migration.png" alt="Payroll Migration"></div>
+        <div class="more-work-title">Payroll migration</div>
+        <div class="more-work-tags">@quickbooks · field research</div>
+      </a>
+      <a href="case-study-switchers.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:-1.5deg;"><img src="homepage-switchers.jpg" alt="Onboarding Switchers"></div>
+        <div class="more-work-title">Onboarding switchers</div>
+        <div class="more-work-tags">@mailchimp · visual design</div>
+      </a>
+      <a href="case-study-heartbreakers.html" class="more-work-item">
+        <div class="tape" style="width:44px; height:16px; top:-8px;"></div>
+        <div class="more-work-frame" style="--tilt:1deg;"><img src="homepage-heartbreakers.png" alt="Credit Karma Money Heartbreakers"></div>
+        <div class="more-work-title">Heartbreaker experience</div>
+        <div class="more-work-tags">@turbotax · systems thinking</div>
+      </a>
+    </div>
+  </div>
+
+  <footer class="contact">
+    <a href="mailto:haeminhwang2000@gmail.com">📮 email</a>
+    <a href="https://www.linkedin.com/in/haeminhwang/">🔗 linkedin</a>
+  </footer>
+</div>
+
+<script>
+  document.querySelectorAll('.design-frame, .impact-card, .summary-card').forEach(frame=>{
+    frame.addEventListener('mousemove', (e)=>{
+      const r = frame.getBoundingClientRect();
+      const x = (e.clientX - r.left)/r.width - 0.5;
+      const y = (e.clientY - r.top)/r.height - 0.5;
+      frame.style.transform = `rotate(0deg) perspective(700px) rotateX(${y*-4}deg) rotateY(${x*4}deg) scale(1.015)`;
+    });
+    frame.addEventListener('mouseleave', ()=>{ frame.style.transform = ''; });
+  });
+</script>
+
+</body>
+</html>
